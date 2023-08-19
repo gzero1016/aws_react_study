@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import TodoAddInput from '../../components/TodoAddInput/TodoAddInput';
+import UsernameInput from '../../components/UsernameInput/UsernameInput';
+import PasswordInput from '../../components/PasswordInput/PasswordInput';
 
 function Main(props) {
     let todoInputValue = null;
@@ -6,10 +9,26 @@ function Main(props) {
     let [ todoContent, setTodoContent ] = useState("");
     // 배열생성
     const [ todoContentArray, setTodoContentArray ] = useState([]);
+    const [ user, setUser ] = useState({
+        username: "",
+        password: ""
+    });
 
     // 이벤트가 일어나는 타겟의 값을 변수에 바꿔서 담는다.
     const handleTodoInputChange = (e) => {
         todoInputValue = e.target.value;
+    }
+
+    const handleUserInfoChange = (e) => {
+        const {name, value} = e.target;     //이벤트가 발생한 객체가 e.target
+        console.log(e.target);
+        // 백쿼트 문자열
+        console.log(`name: ${name}, value: ${value}`);
+
+        setUser({
+            ...user,    // 기존의 user를 다들고오는것
+            [name]: value
+        });
     }
 
     const handleAddClick = () => {
@@ -30,7 +49,12 @@ function Main(props) {
     return (
         <div>
             <div>
-                <input type="text" onChange={handleTodoInputChange} />
+                <h1>사용자이름: {user.username}</h1>    {/* 상태가변하면서 랜더링이 일어남 */}
+                <h1>비밀번호: {user.password}</h1>
+                <UsernameInput onChange={handleUserInfoChange} />
+                <PasswordInput onChange={handleUserInfoChange} />
+
+                <TodoAddInput onChange={handleTodoInputChange} />
                 <button onClick={handleAddClick}>추가</button>
             </div>
             <ul>
